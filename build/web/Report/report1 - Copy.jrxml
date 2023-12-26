@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report1" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9dc46d6d-f9a7-46d5-a112-153e76ef9f6a">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="CONO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="DIVI" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="BNNO" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="THB" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT A.*,B.OKCUNM,B.OKCUA1,B.OKCUA2,B.OKCUA3
+FROM (
+SELECT ROW_NUMBER() OVER (PARTITION BY A.HB_BNNO ORDER BY B.LB_INVNO) AS RowNumber,A.HB_CONO, A.HB_DIVI, A.HB_BNNO,
+SUBSTRING(A.HB_TRDT,7,2) || '-' || SUBSTRING(A.HB_TRDT,5,2) || '-' ||SUBSTRING(A.HB_TRDT,1,4) AS HB_TRDT, A.HB_CUNO, A.HB_PO,
+B.LB_INVNO ,B.LB_INVDT ,B.LB_INVAMT ,B.LB_WHTAX ,B.LB_TAXAMT, B.LB_INVAMT - B.LB_TAXAMT AS BALANCE
+,SUBSTRING(B.LB_INVDT,7,2) || '-' || SUBSTRING(B.LB_INVDT,5,2) || '-' ||SUBSTRING(B.LB_INVDT,1,4) AS InvoiceDate
+FROM BRLDTA0100.H_BILLNOTE A,BRLDTA0100.LN_BILLNOTE B
+WHERE A.HB_CONO  = $P{CONO}
+AND A.HB_DIVI  =$P{DIVI}
+AND A.HB_BNNO = $P{BNNO}
+AND A.HB_CONO = B.LB_CONO
+AND A.HB_DIVI = B.LB_DIVI
+AND A.HB_BNNO = B.LB_BNNO
+) A LEFT JOIN (
+SELECT OKCONO,OKCUNM,OKCUNO,TRIM(OKCUA1) AS OKCUA1,TRIM(OKCUA2) AS OKCUA2,TRIM(OKCUA3) AS OKCUA3
+FROM M3FDBPRD.OCUSMA O
+WHERE O.OKSTAT = '20'
+AND O.OKCONO = $P{CONO}
+) B ON B.OKCONO = A.HB_CONO AND B.OKCUNO = A.HB_CUNO]]>
+	</queryString>
+	<field name="ROWNUMBER" class="java.lang.Long"/>
+	<field name="HB_CONO" class="java.math.BigDecimal"/>
+	<field name="HB_DIVI" class="java.lang.String"/>
+	<field name="HB_BNNO" class="java.lang.String"/>
+	<field name="HB_TRDT" class="java.lang.String"/>
+	<field name="HB_CUNO" class="java.lang.String"/>
+	<field name="HB_PO" class="java.lang.String"/>
+	<field name="LB_INVNO" class="java.lang.String"/>
+	<field name="LB_INVDT" class="java.math.BigDecimal"/>
+	<field name="LB_INVAMT" class="java.math.BigDecimal"/>
+	<field name="LB_WHTAX" class="java.lang.String"/>
+	<field name="LB_TAXAMT" class="java.math.BigDecimal"/>
+	<field name="BALANCE" class="java.math.BigDecimal"/>
+	<field name="INVOICEDATE" class="java.lang.String"/>
+	<field name="OKCUNM" class="java.lang.String"/>
+	<field name="OKCUA1" class="java.lang.String"/>
+	<field name="OKCUA2" class="java.lang.String"/>
+	<field name="OKCUA3" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<textField>
+				<reportElement x="36" y="44" width="100" height="20" uuid="a410b721-6719-42a8-83dc-4687688351c4"/>
+				<textFieldExpression><![CDATA[$F{HB_BNNO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch">
+			<textField>
+				<reportElement x="302" y="15" width="100" height="20" uuid="cbda33c4-8f71-401e-a615-c76f080d4d51"/>
+				<textFieldExpression><![CDATA[$F{HB_PO}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="100" height="20" uuid="f45e7b69-2d00-4b52-8567-db2ef2cf9987"/>
+				<text><![CDATA[LB_INVDT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="163" y="2" width="100" height="20" uuid="bc7e6854-1f7e-4017-b404-4600978c2ead"/>
+				<text><![CDATA[LB_INVDT]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="224" y="2" width="100" height="20" uuid="195b9c2a-61db-4935-9215-56b8167a850f"/>
+				<text><![CDATA[LB_INVNO]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="338" y="2" width="100" height="20" uuid="bd0d06e3-ddfa-48b7-8dd4-fff4cdb45f15"/>
+				<text><![CDATA[LB_INVAMT]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="20" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="0" width="100" height="20" uuid="b87a9845-37db-4ae2-ba28-631881897bd7"/>
+				<textFieldExpression><![CDATA[$F{LB_INVDT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="100" y="0" width="100" height="20" uuid="1bb5e989-676e-4b36-85e2-ed2efd209421"/>
+				<textFieldExpression><![CDATA[$F{LB_INVDT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="200" y="0" width="100" height="20" uuid="590d6523-3ec9-4b50-9ebc-c7be8a7e7ef2"/>
+				<textFieldExpression><![CDATA[$F{LB_INVNO}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="300" y="0" width="100" height="20" uuid="7e726855-69cb-4e8d-a5dc-b2be8fd20415"/>
+				<textFieldExpression><![CDATA[$F{LB_INVAMT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

@@ -1,0 +1,639 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Post-Mortem 01_12" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5b163386-a7ba-4316-b380-4a61afab2e3b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="M3"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="242"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="754"/>
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<subDataset name="Dataset1" uuid="444db9a6-bdfb-4820-9e77-20d7969d158b">
+		<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+		<property name="com.jaspersoft.studio.data.defaultdataadapter" value="M3"/>
+		<queryString language="SQL">
+			<![CDATA[select DISTINCT (a.LQLI_DATE), a.LQLI_TURCK,a.LQLI_SUPP,a.LQLI_PCSLV,b.IDSUNM
+from BRLDTA0100.FAR_LQLDUCK01 a , m3fdbprd.cidmas b
+where a.LQLI_SUPP=b.IDSUNO
+and a.LQLI_DATE = '2020-09-23']]>
+		</queryString>
+		<field name="LQLI_DATE" class="java.sql.Date">
+			<property name="com.jaspersoft.studio.field.label" value="LQLI_DATE"/>
+		</field>
+		<field name="LQLI_TURCK" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="LQLI_TURCK"/>
+		</field>
+		<field name="LQLI_SUPP" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="LQLI_SUPP"/>
+		</field>
+		<field name="LQLI_PCSLV" class="java.math.BigDecimal">
+			<property name="com.jaspersoft.studio.field.label" value="LQLI_PCSLV"/>
+		</field>
+		<field name="IDSUNM" class="java.lang.String">
+			<property name="com.jaspersoft.studio.field.label" value="IDSUNM"/>
+		</field>
+		<group name="LQLI_DATE">
+			<groupExpression><![CDATA[$F{LQLI_DATE}]]></groupExpression>
+		</group>
+	</subDataset>
+	<parameter name="date" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="cono" class="java.lang.Integer"/>
+	<queryString>
+		<![CDATA[SELECT head.LQLI_DATE,T01.F01,T01.SUM_F01,T02.F02,T02.SUM_F02,T03.F03,T03.SUM_F03,T04.F04,T04.SUM_F04,T05.F05,T05.SUM_F05,T06.F06,T06.SUM_F06,T07.F07,T07.SUM_F07,T08.F08,T08.SUM_F08,T09.F09,T09.SUM_F09,T10.F10,T10.SUM_F10,T11.F11,T11.SUM_F11,T12.F12,T12.SUM_F12
+FROM
+(SELECT A.LQLI_DATE
+FROM  BRLDTA0100.FAR_LQLDUCK01 a
+where a.CONOID =  $P{cono}
+AND LQLI_DATE =   $P{date}
+GROUP BY LQLI_DATE) AS head
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F01,a.LQLI_PCSLV AS SUM_F01
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 1
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T01
+ON 1 = 1
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F02,a.LQLI_PCSLV AS SUM_F02
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 2
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T02
+ON 1 = 1
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F03,a.LQLI_PCSLV AS SUM_F03
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 3
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T03
+ON 1 = 1
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F04,a.LQLI_PCSLV AS SUM_F04
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 4
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T04
+ON 1 = 1
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F05,a.LQLI_PCSLV AS SUM_F05
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 5
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T05
+ON 1 = 1
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F06,a.LQLI_PCSLV AS SUM_F06
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 6
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T06
+ON 1 = 1
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F07,a.LQLI_PCSLV AS SUM_F07
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 7
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T07
+ON 1 = 1
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F08,a.LQLI_PCSLV AS SUM_F08
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 8
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T08
+ON 1 = 1
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F09,a.LQLI_PCSLV AS SUM_F09
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 9
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T09
+ON 1 = 1
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F10,a.LQLI_PCSLV AS SUM_F10
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 10
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T10
+ON 1 = 1
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F11,a.LQLI_PCSLV AS SUM_F11
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 11
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T11
+ON 1 = 1
+LEFT JOIN
+(SELECT A.LQLI_DATE,B.IDSUNM AS F12,a.LQLI_PCSLV AS SUM_F12
+FROM  BRLDTA0100.FAR_LQLDUCK01 A , m3fdbprd.cidmas B
+where a.CONOID = $P{cono}
+AND A.LQLI_TURCK = 12
+AND LQLI_DATE = $P{date}
+AND a.CONOID = b.IDCONO
+AND A.LQLI_SUPP=B.IDSUNO) AS T12
+ON 1 = 1]]>
+	</queryString>
+	<field name="LQLI_DATE" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="LQLI_DATE"/>
+	</field>
+	<field name="F01" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F01"/>
+	</field>
+	<field name="SUM_F01" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F01"/>
+	</field>
+	<field name="F02" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F02"/>
+	</field>
+	<field name="SUM_F02" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F02"/>
+	</field>
+	<field name="F03" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F03"/>
+	</field>
+	<field name="SUM_F03" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F03"/>
+	</field>
+	<field name="F04" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F04"/>
+	</field>
+	<field name="SUM_F04" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F04"/>
+	</field>
+	<field name="F05" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F05"/>
+	</field>
+	<field name="SUM_F05" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F05"/>
+	</field>
+	<field name="F06" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F06"/>
+	</field>
+	<field name="SUM_F06" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F06"/>
+	</field>
+	<field name="F07" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F07"/>
+	</field>
+	<field name="SUM_F07" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F07"/>
+	</field>
+	<field name="F08" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F08"/>
+	</field>
+	<field name="SUM_F08" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F08"/>
+	</field>
+	<field name="F09" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F09"/>
+	</field>
+	<field name="SUM_F09" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F09"/>
+	</field>
+	<field name="F10" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F10"/>
+	</field>
+	<field name="SUM_F10" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F10"/>
+	</field>
+	<field name="F11" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F11"/>
+	</field>
+	<field name="SUM_F11" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F11"/>
+	</field>
+	<field name="F12" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="F12"/>
+	</field>
+	<field name="SUM_F12" class="java.math.BigDecimal">
+		<property name="com.jaspersoft.studio.field.label" value="SUM_F12"/>
+	</field>
+	<variable name="SUM_F011" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM_F01}]]></variableExpression>
+	</variable>
+	<variable name="SUM_F021" class="java.math.BigDecimal" resetType="Page" calculation="Sum">
+		<variableExpression><![CDATA[$F{SUM_F02}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<pageHeader>
+		<band height="258" splitType="Stretch">
+			<line direction="BottomUp">
+				<reportElement x="11" y="80" width="539" height="1" uuid="3f4ab96e-2559-41b4-99f3-911e96f58326">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<staticText>
+				<reportElement x="175" y="0" width="208" height="46" uuid="8bde2d21-b29d-403a-87a1-530323e2c13c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[แบบ สพส. 005 (BLSC 005)
+รายงานการตรวจสุขภาพสัตว์ปีกหลังการฆ่า
+(Daily Report on Post-mortem Inspection)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="11" y="60" width="390" height="20" uuid="a662e38c-fae8-4c54-9087-153d496b7677"/>
+				<text><![CDATA[บริษัท (Name of Establishment) : บริษัท บางกอกแร้นช์ จำกัด (มหาชน) (EST ___14____)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="416" y="60" width="100" height="20" uuid="c630c4b2-5085-44eb-b417-65684959e4a3"/>
+				<text><![CDATA[วันที่ (Date) :]]></text>
+			</staticText>
+			<textField pattern="dd/MMM/yyyy">
+				<reportElement x="476" y="60" width="70" height="20" uuid="c874eccc-e256-4c89-8b31-606f83cf80db"/>
+				<textFieldExpression><![CDATA[$P{date}]]></textFieldExpression>
+			</textField>
+			<line direction="BottomUp">
+				<reportElement x="11" y="97" width="539" height="3" uuid="9f46c5ad-09f4-4a08-86b4-7175caba605e">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="11" y="179" width="539" height="1" uuid="b494b8b1-cf71-4b80-83eb-91ccfb1f5e9d">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line direction="BottomUp">
+				<reportElement x="11" y="199" width="539" height="1" uuid="0e772ec8-9601-4dfd-8404-f287c5c73aeb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+			</line>
+			<line>
+				<reportElement x="11" y="81" width="1" height="120" uuid="4ae6874a-6e67-41c3-abd1-e232fa7d9115"/>
+			</line>
+			<line>
+				<reportElement x="550" y="80" width="1" height="120" uuid="a130f603-5ba8-4a52-8d0a-4abf860a3bd9"/>
+			</line>
+			<line>
+				<reportElement x="127" y="81" width="1" height="120" uuid="b213f49e-3dd6-4f14-814b-ab019b6e160e"/>
+			</line>
+			<line>
+				<reportElement x="514" y="80" width="1" height="120" uuid="eb1c3686-7d58-4d30-b3a4-0e3bc3940a23"/>
+			</line>
+			<staticText>
+				<reportElement x="15" y="186" width="112" height="16" uuid="9f3656e1-3bd4-4066-a9a6-f08bf0940080"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<text><![CDATA[จำนวนสัตว์ (Total number of birds)]]></text>
+			</staticText>
+			<line>
+				<reportElement x="478" y="81" width="1" height="120" uuid="f176e220-e3c5-4359-a530-b157c3b9fd36"/>
+			</line>
+			<line>
+				<reportElement x="443" y="80" width="1" height="120" uuid="22d93787-b1d2-4e87-965d-f932a597eca9"/>
+			</line>
+			<line>
+				<reportElement x="408" y="80" width="1" height="120" uuid="87652860-194f-428c-a099-e14b5bd026e3"/>
+			</line>
+			<line>
+				<reportElement x="374" y="81" width="1" height="120" uuid="de2a9a78-5ae2-428b-8798-03c94158916d"/>
+			</line>
+			<line>
+				<reportElement x="340" y="80" width="1" height="120" uuid="9a80a11b-3dec-43b7-af16-da6ece344ec5"/>
+			</line>
+			<line>
+				<reportElement x="304" y="81" width="1" height="120" uuid="fc04ac8f-cfc8-4e90-8434-11dae45caf68"/>
+			</line>
+			<line>
+				<reportElement x="269" y="80" width="1" height="120" uuid="3e070888-6fad-43af-ba44-401d7ba2a129"/>
+			</line>
+			<line>
+				<reportElement x="232" y="80" width="1" height="120" uuid="425ed132-758a-4f52-9fb7-fcdfa6954c9b"/>
+			</line>
+			<line>
+				<reportElement x="197" y="81" width="1" height="120" uuid="d1da6dad-77de-46f7-b4a6-d475e9603578"/>
+			</line>
+			<line>
+				<reportElement x="162" y="81" width="1" height="120" uuid="9c839a94-dc2d-4e81-90a3-3fcedf82c62c"/>
+			</line>
+			<staticText>
+				<reportElement x="15" y="85" width="112" height="16" uuid="674715e2-9b47-4292-8932-da59ad279b8d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[คิวที่ (Queue No.)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="15" y="132" width="112" height="16" uuid="a2fd5979-5a9f-4921-b3a5-195a0a4d822f"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<text><![CDATA[ชื่อฟาร์ม (Farm Name)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="128" y="84" width="34" height="13" uuid="c1347e20-c3ca-4504-ac2e-7ff8fc408547"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[1]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="163" y="84" width="34" height="13" uuid="81ddd073-5b73-42a2-a981-51cf77f9968c"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[2]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="198" y="84" width="34" height="13" uuid="b1801988-c508-4fee-8d1e-c8f5f23db46e"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[3]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="234" y="84" width="34" height="13" uuid="3e3da779-c2ce-49c2-9b15-0adbc6fd3d99"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[4]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="267" y="84" width="34" height="13" uuid="5e0854b2-50a3-4c79-aa32-a5613835bd54"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[5]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="304" y="84" width="34" height="13" uuid="65cf613f-a531-492c-80f9-fcd20ab6b913"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[6]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="339" y="84" width="34" height="13" uuid="dc9c8cb9-2793-4ab1-8cfb-a9a0e9428c04"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[7]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="373" y="84" width="34" height="13" uuid="38ba7fc1-1f6e-47b4-9a2a-54f51a0cf6f4"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[8]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="408" y="84" width="34" height="13" uuid="5ae8723e-b8d4-4f06-ba74-61e893a24e8d"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[9]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="443" y="84" width="34" height="13" uuid="9ecb32e2-24d4-4933-94a0-96ab3474f63f"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[10]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="479" y="84" width="34" height="13" uuid="f51cab25-cf11-4477-9f33-9e362fb2983d"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[11]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="514" y="84" width="34" height="13" uuid="6d897815-ff81-47ab-b9ea-e3b52f3eec46"/>
+				<textElement textAlignment="Center"/>
+				<text><![CDATA[12]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="128" y="101" width="36" height="78" uuid="031a7797-d4b8-42b2-86a9-9ce4676f5094">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F01}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="163" y="101" width="36" height="78" uuid="658e30d2-0420-4cd7-ab5d-c2dc354b8f3c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F02}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="132" y="183" width="30" height="16" uuid="e65a982a-c0df-4189-b636-5f6e31de5e1e"/>
+				<textFieldExpression><![CDATA[$F{SUM_F01}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="167" y="183" width="30" height="16" uuid="f107e1c5-0849-40d5-a2c1-ac3e50ab2698">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SUM_F02}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="202" y="183" width="30" height="16" uuid="1c41f5dc-0425-4aba-a5d6-a8660b77122f">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SUM_F03}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="198" y="101" width="36" height="78" uuid="6ccde6a5-8b3c-425a-bed3-296619388874">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F03}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="234" y="101" width="36" height="78" uuid="ecd1380c-9faf-4c42-80bc-53c368aaf979">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F04}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="271" y="101" width="36" height="78" uuid="03843599-e91a-4042-a53d-dd60c082d049">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F05}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="305" y="101" width="36" height="78" uuid="dc7a976a-99a6-4752-8e46-d24ed8f88ad7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F06}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="239" y="183" width="30" height="16" uuid="71b68126-f08a-46e9-954e-412fb3bba3e6">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SUM_F04}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="273" y="183" width="30" height="16" uuid="f5300805-89c1-4a84-9199-5da5df48ba1c">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SUM_F05}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="308" y="183" width="30" height="16" uuid="e9751b3b-3e3f-4e1c-adaf-4b910f7c9371">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SUM_F06}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="341" y="101" width="36" height="78" uuid="11c30a1a-3a9c-4245-8d89-e9cd00eca7a3">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F07}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="376" y="101" width="36" height="78" uuid="53a13259-7973-4854-a4f7-3044cbb96f89">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F08}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="410" y="101" width="36" height="78" uuid="fcc6d9f2-138d-40bc-b2ae-328b8a534ef4">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F09}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="444" y="101" width="36" height="78" uuid="4e94eb0a-c158-4b74-bdc8-970009e1c93e">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F10}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="480" y="101" width="36" height="78" uuid="5f3f2175-3992-43ea-b901-c5db7f6a896d">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F11}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="516" y="101" width="36" height="78" uuid="2c049294-8712-491b-aafe-62f4d017ece7">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+				</reportElement>
+				<textElement>
+					<font fontName="TH SarabunPSK" size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{F12}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="343" y="183" width="30" height="16" uuid="9f6931f9-d158-4f9c-a420-5c584d8dc2d7">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SUM_F07}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="377" y="183" width="30" height="16" uuid="435f9f40-15d7-47f0-8bcd-2a7a49fe2fdc">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SUM_F08}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="413" y="183" width="30" height="16" uuid="7f0194de-fb6e-4241-bccb-013ff252e54a">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SUM_F09}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="448" y="183" width="30" height="16" uuid="e38b63fc-3dc1-4bdb-be7e-4b4ffb016093">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM_F10}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="484" y="183" width="30" height="16" uuid="e6b4f4ff-61ed-40e8-9bd4-861369d7fd99">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="10"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{SUM_F11}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.###">
+				<reportElement x="519" y="183" width="30" height="16" uuid="e8bfcedc-5089-49cb-9983-351cdaa4fbb6">
+					<property name="com.jaspersoft.studio.unit.width" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textFieldExpression><![CDATA[$F{SUM_F12}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="50"/>
+	</columnHeader>
+	<detail>
+		<band height="100" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+		</band>
+	</detail>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="60">
+			<frame>
+				<reportElement x="1" y="0" width="555" height="60" uuid="c092f2a4-0822-4f59-bb98-0390e1e1af50"/>
+			</frame>
+		</band>
+	</summary>
+</jasperReport>
